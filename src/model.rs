@@ -16,6 +16,11 @@ pub trait Object {
     fn update(&mut self, args: &UpdateArgs);
 }
 
+pub enum ObjectType {
+    Rod(Rod),
+    Square(Square),
+}
+
 pub struct Rod {
     pub vertices: Vec<Vertex>,
     pub edges: Vec<Edge>,

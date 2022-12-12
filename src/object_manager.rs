@@ -1,14 +1,14 @@
 use super::*;
 
 pub struct ObjectManager {
-    pub objects: Vec<Box<dyn Object>>,
+    pub objects: Vec<ObjectType>,
 }
 
 impl ObjectManager {
     pub fn new() -> ObjectManager {
         ObjectManager { objects: vec![] }
     }
-    pub fn add(&mut self, object: Box<dyn Object>) {
+    pub fn add(&mut self, object: ObjectType) {
         self.objects.push(object);
     }
     pub fn generate_object_from_csv(&mut self, path: &str, cell_size: f64) {
@@ -23,30 +23,30 @@ impl ObjectManager {
                 "1" => {
                     println!("ブロックを追加したよ");
                     println!("x: {}, y: {}", counter_x, counter_y);
-                    self.add(Box::new(Square {
+                    self.add(ObjectType::Square(model::Square {
                         vertices: vec![
-                            Vertex {
+                            model::Vertex {
                                 x: counter_x as f64 * cell_size,
                                 y: counter_y as f64 * cell_size,
                             },
-                            Vertex {
+                            model::Vertex {
                                 x: counter_x as f64 * cell_size + cell_size,
                                 y: counter_y as f64 * cell_size,
                             },
-                            Vertex {
+                            model::Vertex {
                                 x: counter_x as f64 * cell_size + cell_size,
                                 y: counter_y as f64 * cell_size + cell_size,
                             },
-                            Vertex {
+                            model::Vertex {
                                 x: counter_x as f64 * cell_size,
                                 y: counter_y as f64 * cell_size + cell_size,
                             },
                         ],
                         edges: vec![
-                            Edge { start: 0, end: 1 },
-                            Edge { start: 1, end: 2 },
-                            Edge { start: 2, end: 3 },
-                            Edge { start: 3, end: 0 },
+                            model::Edge { start: 0, end: 1 },
+                            model::Edge { start: 1, end: 2 },
+                            model::Edge { start: 2, end: 3 },
+                            model::Edge { start: 3, end: 0 },
                         ],
                     }));
                 }
@@ -65,7 +65,38 @@ impl ObjectManager {
                     "1" => {
                         println!("ブロックを追加したよ");
                         println!("x: {}, y: {}", counter_x, counter_y);
-                        self.add(Box::new(Square {
+                        self.add(ObjectType::Square(model::Square {
+                            vertices: vec![
+                                model::Vertex {
+                                    x: counter_x as f64 * cell_size,
+                                    y: counter_y as f64 * cell_size,
+                                },
+                                model::Vertex {
+                                    x: counter_x as f64 * cell_size + cell_size,
+                                    y: counter_y as f64 * cell_size,
+                                },
+                                model::Vertex {
+                                    x: counter_x as f64 * cell_size + cell_size,
+                                    y: counter_y as f64 * cell_size + cell_size,
+                                },
+                                model::Vertex {
+                                    x: counter_x as f64 * cell_size,
+                                    y: counter_y as f64 * cell_size + cell_size,
+                                },
+                            ],
+                            edges: vec![
+                                model::Edge { start: 0, end: 1 },
+                                model::Edge { start: 1, end: 2 },
+                                model::Edge { start: 2, end: 3 },
+                                model::Edge { start: 3, end: 0 },
+                            ],
+                        }));
+                    }
+                    "2" => {
+                        // rod
+                        println!("ロッドを追加したよ");
+                        println!("x: {}, y: {}", counter_x, counter_y);
+                        self.add(ObjectType::Rod(model::Rod {
                             vertices: vec![
                                 Vertex {
                                     x: counter_x as f64 * cell_size,
@@ -73,23 +104,11 @@ impl ObjectManager {
                                 },
                                 Vertex {
                                     x: counter_x as f64 * cell_size + cell_size,
-                                    y: counter_y as f64 * cell_size,
-                                },
-                                Vertex {
-                                    x: counter_x as f64 * cell_size + cell_size,
-                                    y: counter_y as f64 * cell_size + cell_size,
-                                },
-                                Vertex {
-                                    x: counter_x as f64 * cell_size,
                                     y: counter_y as f64 * cell_size + cell_size,
                                 },
                             ],
-                            edges: vec![
-                                Edge { start: 0, end: 1 },
-                                Edge { start: 1, end: 2 },
-                                Edge { start: 2, end: 3 },
-                                Edge { start: 3, end: 0 },
-                            ],
+                            edges: vec![Edge { start: 0, end: 1 }],
+                            speed: 30.0,
                         }));
                     }
                     _ => {}
